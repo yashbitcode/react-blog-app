@@ -1,17 +1,24 @@
-import { useState } from "react";
-
-class Ab {
-    constructor(name: string) {
-        console.log(name);
-    }
-}
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import authService from "./appwrite/auth";
+import { login } from "./store/authSlice";
+import Header from "./components/Header/Header";
 
 const App = () => {
-    const [val, setVal] = useState(1);
-    const obj = new Ab("yash");
+    const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
 
+    useEffect(() => {
+        authService.getCurrentUser()
+        .then((userData) => dispatch(login({ userData })))
+        .finally(() => setLoading(false));
+    }, []);
 
-    return <div><button onClick={() => setVal(val + 1)}>{val}</button></div>;
+    return loading && (
+        <div className="text-neutral-700 text-4xl">
+            <Header />
+        </div>
+    );
 };
 
 export default App;

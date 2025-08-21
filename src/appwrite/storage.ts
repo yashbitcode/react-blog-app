@@ -1,7 +1,7 @@
 import { Client, ID, Storage } from "appwrite";
 import conf from "../conf/conf";
 
-class StorageClass {
+class StorageService {
     client = new Client();
     storage;
 
@@ -39,4 +39,8 @@ class StorageClass {
             return false;
         }
     }
-}
+};
+
+const storageService = new StorageService();
+
+export default storageService;
