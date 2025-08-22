@@ -1,0 +1,28 @@
+import { useId } from "react";
+import type { CustomSelectInterface } from "../types/types";
+import { twMerge } from "tailwind-merge";
+
+const CustomSelect = ({
+    options,
+    className,
+    label,
+    id,
+    ...props
+}: CustomSelectInterface, ref: React.Ref<HTMLSelectElement>) => {
+    const defaultId = useId();
+
+    return (
+        <div>
+            {label && <label htmlFor={id || defaultId}>{label}</label>}
+            <select id={id || defaultId} ref={ref} {...props} className={twMerge("", className)}>
+                {
+                    options.map((el) => (
+                        <option key={el} value={el}>{el}</option>
+                    ))
+                }
+            </select>
+        </div>
+    );
+};
+
+export default CustomSelect;

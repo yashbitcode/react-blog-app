@@ -1,15 +1,13 @@
 import { twMerge } from 'tailwind-merge'
-import type React from "react";
+import type { CustomContainerInterface } from '../types/types';
 
 const CustomContainer = ({
     className,
-    children
-}: {
-    className?: string;
-    children: React.ReactNode;
-}) => {
+    children,
+    ...props
+}: CustomContainerInterface) => {
     return (
-        <div className={twMerge("w-full max-w-7xl px-4 mx-auto", className)}>{children}</div>
+        <div className={twMerge("w-full max-w-7xl px-4 mx-auto", className)} {...props}>{children}</div>
     );
 };
 

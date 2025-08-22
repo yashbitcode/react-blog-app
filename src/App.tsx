@@ -9,13 +9,14 @@ const App = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        authService.getCurrentUser()
-        .then((userData) => dispatch(login({ userData })))
-        .finally(() => setLoading(false));
+        // authService.getCurrentUser()
+        // .then((userData) => dispatch(login({ userData })))
+        // .finally(() => setLoading(false));
+        setLoading(false);
     }, []);
 
-    return loading && (
-        <div className="text-neutral-700 text-4xl">
+    return !loading && (
+        <div className="text-neutral-700">
             <Header />
         </div>
     );

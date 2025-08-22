@@ -39,6 +39,13 @@ class StorageService {
             return false;
         }
     }
+
+    getFilePreview(fileId: string) {
+        return this.storage.getFilePreview(
+            conf.appwriteBucketId,
+            fileId
+        );
+    } 
 };
 
 const storageService = new StorageService();
