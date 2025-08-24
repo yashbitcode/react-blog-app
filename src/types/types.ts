@@ -20,6 +20,7 @@ export interface loginAccInterface {
 }
 
 export interface createPostInterface {
+    slug: string;
     status: string;
     title: string;
     content: string;
@@ -29,6 +30,7 @@ export interface createPostInterface {
 
 export interface updatePostInterface {
     status: string;
+    slug: string;
     title: string;
     content: string;
     featured_img: string;
@@ -51,14 +53,17 @@ export interface CustomInputInterface extends React.InputHTMLAttributes<HTMLInpu
     label?: string;
     className?: string;
     ref?: React.Ref<HTMLInputElement>;
+    errorMsg?: string;
 }
 
 export interface CustomSelectInterface extends React.SelectHTMLAttributes<HTMLSelectElement> {
     options: string[],
     id?: string;
     type?: string;
+    ref?: React.Ref<HTMLSelectElement>;
     label?: string;
     className?: string;
+    errorMsg?: string;
 }
 
 export interface PostCardInterface {

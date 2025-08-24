@@ -14,8 +14,7 @@ class DatabaseService {
     }
 
     async createPost(
-        slug: string,
-        { status, title, content, featured_img, userId }: createPostInterface
+        { status, slug, title, content, featured_img, userId }: createPostInterface
     ) {
         try {
             const result = await this.database.createDocument(
@@ -38,8 +37,7 @@ class DatabaseService {
     }
 
     async updatePost(
-        slug: string,
-        { status, title, content, featured_img }: updatePostInterface
+        { status, slug, title, content, featured_img }: updatePostInterface
     ) {
         try {
             await this.database.updateDocument(

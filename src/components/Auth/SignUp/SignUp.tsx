@@ -1,33 +1,40 @@
-import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import authService from "../../../appwrite/auth";
-import { useDispatch } from "react-redux";
-import { login } from "../../../store/authSlice";
-import { Link, useNavigate } from "react-router-dom";
 import { CustomButton, CustomInput } from "../../../custom-components";
+import authService from "../../../appwrite/auth";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../../../store/authSlice";
 
 type Inputs = {
+    name: string;
     email: string;
     password: string;
+    confirmPassword: string;
 };
 
-const Login = () => {
+const SignUp = () => {
     const {
         register,
         handleSubmit,
+        watch,
         formState: { errors },
     } = useForm<Inputs>();
 
+    const [signUpError, setSignUpError] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const [loginError, setLoginError] = useState("");
+    const password = watch("password");
 
-    const handleLogin: SubmitHandler<Inputs> = async (data) => {
-        setLoginError("");
-
+    const handleSignUp: SubmitHandler<Inputs> = async (data) => {
+        const { name, email, password } = data;
         try {
-            const session = await authService.loginAccount(data);
+            const session = await authService.createAccount({
+                name,
+                email,
+                password,
+            });
 
             if (session) {
                 const currUser = await authService.getCurrentUser();
@@ -38,21 +45,31 @@ const Login = () => {
                 }
             }
         } catch (err) {
-            setLoginError(err.message);
+            setSignUpError(err.message);
         }
     };
 
     return (
         <div>
             <span>
-                Create New Account?&nbsp;
-                <Link to="/sign-up">Sign Up</Link>
+                Already have an Account?&nbsp;
+                <Link to="/login">Sign In</Link>
             </span>
-            <form onSubmit={handleSubmit(handleLogin)}>
+            <form onSubmit={handleSubmit(handleSignUp)}>
+                <CustomInput
+                    type="text"
+                    label="Fullname"
+                    placeholder="Enter fullname"
+                    {...register("name", {
+                        required: "name is required",
+                    })}
+                    errorMsg={errors.name?.message}
+                />
+
                 <CustomInput
                     type="email"
                     label="Email"
-                    placeholder="Enter Email Address"
+                    placeholder="Enter email"
                     {...register("email", {
                         required: "Email Required",
                         pattern: {
@@ -83,12 +100,26 @@ const Login = () => {
                     errorMsg={errors.password?.message}
                 />
 
-                <CustomButton type="submit">Sign In</CustomButton>
+                <CustomInput
+                    type="password"
+                    placeholder="Enter Confirm Password"
+                    label="Confirm Password"
+                    {...register("confirmPassword", {
+                        required: "Confirm Password required",
+                        validate: (value) =>
+                            value === password || "Passwords do not match",
+                    })}
+                    errorMsg={errors.confirmPassword?.message}
+                />
 
-                {loginError && <span className="bg-red-500">{loginError}</span>}
+                <CustomButton type="submit">Sign Up</CustomButton>
+
+                {signUpError && (
+                    <span className="bg-red-500">{signUpError}</span>
+                )}
             </form>
         </div>
     );
 };
 
-export default Login;
+export default SignUp;

@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 import type { CustomInputInterface } from "../types/types";
 
 const CustomInput = (
-    { label, type = "text", className, id, ref, ...props }: CustomInputInterface
+    { label, type = "text", className, id, ref, errorMsg, ...props }: CustomInputInterface
 ) => {
     const defaultId = useId();
 
@@ -17,6 +17,11 @@ const CustomInput = (
                 className={twMerge("w-full px-3 py-2 rounded-md", className)}
                 {...props}
             />
+            {
+                errorMsg && (
+                    <span className="mt-2 text-sm bg-red-500">{errorMsg}</span>
+                )
+            }
         </div>
     );
 };
