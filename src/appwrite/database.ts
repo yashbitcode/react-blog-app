@@ -88,14 +88,12 @@ class DatabaseService {
         }
     }
 
-    async getAllPost() {
+    async getAllPost(queries = [Query.equal("status", "active")]) {
         try {
             const result = await this.database.listDocuments(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
-                [
-                    Query.equal("status", "active")
-                ]
+                queries
             );
 
             return result;

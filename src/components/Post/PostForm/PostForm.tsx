@@ -21,7 +21,9 @@ type Inputs = {
     featured_img: string;
 };
 
-const PostForm = ({ post }) => {
+const PostForm = ({ post }: {
+    post?: any;
+}) => {
     const {
         register,
         handleSubmit,
@@ -32,10 +34,10 @@ const PostForm = ({ post }) => {
         formState: { errors },
     } = useForm<Inputs>({
         defaultValues: {
-            title: post.title || "",
-            slug: post.slug || "",
-            content: post.content || "",
-            status: post.status || "active",
+            title: post?.title || "",
+            slug: post?.slug || "",
+            content: post?.content || "",
+            status: post?.status || "active",
         },
     });
 

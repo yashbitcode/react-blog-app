@@ -1,8 +1,6 @@
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store/store";
 import { Link } from "react-router-dom";
-import { Login } from "../Auth";
-// import { useNavigate } from "react-router-dom";
 
 const Header = () => {
     const authStatus = useSelector((state: RootState) => state.auth.status);
@@ -19,6 +17,11 @@ const Header = () => {
             active: true,
         },
         {
+            name: "All Posts",
+            href: "/all-posts",
+            active: authStatus,
+        },
+        {
             name: "Login",
             href: "/login",
             active: !authStatus,
@@ -27,25 +30,19 @@ const Header = () => {
             name: "Sign Up",
             href: "/sign-up",
             active: !authStatus,
-        },
-        {
-            name: "Home",
-            href: "/",
-            active: true,
-        },
+        }
     ];
     return (
-        <div className="w-full p-4">
+        <div className="w-full p-4 max-w-2xl mx-auto bg-gray-300 mt-6">
             <nav>
-                <ul>
+                <ul className="flex justify-between">
                     {navItems.map((el) => el.active && (
-                        // <Link to={el.href} key={el.name}>
+                        <Link to={el.href} key={el.name}>
                             <li>{el.name}</li>
-                        // </Link>
+                        </Link>
                     ))}
                 </ul>
             </nav>
-            <Login />
         </div>
     );
 };
