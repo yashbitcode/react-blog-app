@@ -24,9 +24,13 @@ const RTE = ({
             {label && <label>{label}</label>}
             <Controller
                 name={name || "RTE"}
+                rules={{
+                    required: "Content is required"
+                }}
                 control={control}
                 render={({ field: { onChange } }) => (
                     <Editor
+                        apiKey={import.meta.env.VITE_RTE_API_KEY}
                         initialValue={defaultValue}
                         init={{
                             height: 500,

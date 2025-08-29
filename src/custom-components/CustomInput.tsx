@@ -19,7 +19,7 @@ const CustomInput = (
             />
             {
                 errorMsg && (
-                    <span className="mt-2 text-sm bg-red-500">{errorMsg}</span>
+                <span className="mt-2 text-sm text-red-500">{errorMsg}</span>
                 )
             }
         </div>

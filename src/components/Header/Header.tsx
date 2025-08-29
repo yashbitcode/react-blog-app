@@ -22,6 +22,11 @@ const Header = () => {
             active: authStatus,
         },
         {
+            name: "Add Post",
+            href: "/add-post",
+            active: authStatus,
+        },
+        {
             name: "Login",
             href: "/login",
             active: !authStatus,
@@ -34,8 +39,9 @@ const Header = () => {
     ];
     return (
         <div className="w-full p-4 max-w-2xl mx-auto bg-gray-300 mt-6">
-            <nav>
-                <ul className="flex justify-between">
+            <nav className="flex justify-between">
+                <div>logo</div>
+                <ul className="flex gap-4">
                     {navItems.map((el) => el.active && (
                         <Link to={el.href} key={el.name}>
                             <li>{el.name}</li>

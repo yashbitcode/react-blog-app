@@ -11,6 +11,7 @@ import Protected from "./components/Protected/Protected.tsx";
 import SignUp from "./pages/SignUp.tsx";
 import AddPost from "./pages/AddPost.tsx";
 import EditPost from "./pages/EditPost.tsx";
+import Post from "./pages/Post.tsx";
 
 const router = createBrowserRouter([
     {
@@ -63,7 +64,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/post/:slug",
-                element: <EditPost />
+                element: <Post />
             },
         ]
     }

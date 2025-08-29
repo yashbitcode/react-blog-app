@@ -69,5 +69,5 @@ export interface CustomSelectInterface extends React.SelectHTMLAttributes<HTMLSe
 export interface PostCardInterface {
     $id: string;
     title: string;
-    featuredImg: string;
+    featured_img: string;
 };

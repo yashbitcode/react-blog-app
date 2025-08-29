@@ -15,6 +15,8 @@ const EditPost = () => {
         } else navigate("/");
     }, [slug, navigate]);
 
+    console.log(post)
+
     return (
         post && (
             <CustomContainer>

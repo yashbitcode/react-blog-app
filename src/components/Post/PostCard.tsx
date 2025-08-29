@@ -5,15 +5,15 @@ import { Link } from "react-router-dom";
 const PostCard = ({
     $id,
     title,
-    featuredImg
+    featured_img
 }: PostCardInterface) => {
     return (
-        <Link to={`post/${$id}`}>
+        <Link to={`/post/${$id}`}>
             <div>
                 <div className="w-full max-w-3xs">
-                    <img src={storageService.getFilePreview(featuredImg)} alt={title} />
+                    <img src={storageService.getFilePreview(featured_img)} alt={title} />
                 </div>
-                <h1>{title}</h1>
+                <h1 className="text-xl">{title}</h1>
             </div>
         </Link>
     );

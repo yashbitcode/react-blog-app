@@ -1,30 +1,25 @@
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store/store";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const Protected = ({
     children,
-    authenticated = true
+    authenticated = true,
 }: {
     children: React.ReactNode;
     authenticated?: boolean;
 }) => {
-    const [loading, setLoading] = useState(true);
-
     const authStatus = useSelector((state: RootState) => state.auth.status);
-    const navigate = useNavigate();
 
-    useEffect(() => {   
-        if(authenticated && authStatus !== authenticated) navigate("/login");
-        else if(!authenticated && authStatus !== authenticated) navigate("/");
+    // if (authenticated && authStatus !== authenticated) {
+    //     return <Navigate to="/login" replace />;
+    // }
 
-        setLoading(false);
-    }, [authStatus, authenticated, navigate]);
+    if (!authenticated && authStatus !== authenticated) {
+        return <Navigate to="/" replace />;
+    }
 
-    return loading && (
-        <div>{children}</div>
-    );
+    return <div>{children}</div>;
 };
 
 export default Protected;

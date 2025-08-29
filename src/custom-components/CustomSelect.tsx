@@ -14,13 +14,13 @@ const CustomSelect = ({
     const defaultId = useId();
 
     return (
-        <div>
+        <div className="flex flex-col">
             {label && <label htmlFor={id || defaultId}>{label}</label>}
             <select
                 id={id || defaultId}
                 ref={ref}
                 {...props}
-                className={twMerge("", className)}
+                className={twMerge("border", className)}
             >
                 {options.map((el) => (
                     <option key={el} value={el}>
@@ -29,7 +29,7 @@ const CustomSelect = ({
                 ))}
             </select>
             {errorMsg && (
-                <span className="mt-2 text-sm bg-red-500">{errorMsg}</span>
+                <span className="mt-2 text-sm text-red-500">{errorMsg}</span>
             )}
         </div>
     );

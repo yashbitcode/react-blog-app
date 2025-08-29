@@ -35,22 +35,27 @@ const Post = () => {
 
     return (
         post && (
-            <CustomContainer>
+            <CustomContainer className="mt-7">
                 <div>
                     <img
                         src={storageService.getFilePreview(post.featured_img)}
                         alt={post.title}
+                        className="max-w-lg mx-auto"
                     />
-                    <div className="flex gap-3">
-                        <Link to={`/edit-post/${slug}`}>
-                            <CustomButton>Edit Post</CustomButton>
-                        </Link>
-                        <CustomButton onClick={handleDelete}>Delete Post</CustomButton>
-                    </div>
+                    {isAuthor && (
+                        <div className="flex flex-col max-w-40 mx-auto mt-5 gap-3">
+                            <Link to={`/edit-post/${slug}`}>
+                                <CustomButton>Edit Post</CustomButton>
+                            </Link>
+                            <CustomButton onClick={handleDelete}>
+                                Delete Post
+                            </CustomButton>
+                        </div>
+                    )}
                 </div>
 
                 <div>
-                    <h1>{post.title}</h1>
+                    <h1 className="text-2xl font-semibold underline my-10">{post.title}</h1>
                     <p>{parse(post.content)}</p>
                 </div>
             </CustomContainer>

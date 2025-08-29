@@ -21,9 +21,7 @@ type Inputs = {
     featured_img: string;
 };
 
-const PostForm = ({ post }: {
-    post?: any;
-}) => {
+const PostForm = ({ post }: { post?: any }) => {
     const {
         register,
         handleSubmit,
@@ -35,7 +33,7 @@ const PostForm = ({ post }: {
     } = useForm<Inputs>({
         defaultValues: {
             title: post?.title || "",
-            slug: post?.slug || "",
+            slug: post?.$id || "",
             content: post?.content || "",
             status: post?.status || "active",
         },
@@ -48,41 +46,48 @@ const PostForm = ({ post }: {
         let dbPost;
 
         if (post) {
-            const file = data.image
-                ? await storageService.uploadFile(data.image)
+            const file = data?.image?.[0]
+                ? await storageService.uploadFile(data.image[0])
                 : null;
 
-            if (file) {
-                storageService.deleteFile(post.featured_img);
-               
+            if (file) storageService.deleteFile(post.featured_img);
+
+            if (data.slug === post.$id) {
                 dbPost = await databaseService.updatePost({
                     ...data,
                     slug: post.$id,
-                    featured_img: file,
+                    featured_img: file ? file?.$id : post.featured_img,
                 });
+
+                if (dbPost) navigate(`/post/${post.$id}`);
+            } else {
+                dbPost = await databaseService.createPost({
+                    ...data,
+                    featured_img: file ? file?.$id : post.featured_img,
+                    userId: userData.$id,
+                });
+
+                if (dbPost) {
+                    const res = await databaseService.deletePost(post.$id);
+                    if (res) navigate(`/post/${data.slug}`);
+                }
             }
         } else {
-            const file = await storageService.uploadFile(data.image);
-            data.featured_img = file;
+            const file = await storageService.uploadFile(data.image?.[0]);
 
             dbPost = await databaseService.createPost({
                 ...data,
+                featured_img: file?.$id || "",
                 userId: userData.$id,
             });
-        }
 
-        if (dbPost) {
-            navigate(`/post/${dbPost.$id}`);
+            if (dbPost) navigate(`/post/${data.slug}`);
         }
     };
 
     const slugTransform = useCallback((value?: string) => {
         if (value && typeof value === "string") {
-            return value
-                .trim()
-                .toLowerCase()
-                .replace(/[a-zA-Z\d\s]+/g, "-")
-                .replace(/s/g, "-");
+            return value.trim().toLowerCase().replaceAll(" ", "-");
         }
 
         return "";
@@ -101,8 +106,11 @@ const PostForm = ({ post }: {
     }, [watch, slugTransform, setValue]);
 
     return (
-        <form onSubmit={handleSubmit(handlePost)} className="flex flex-wrap">
-            <div className="w-2/3">
+        <form
+            onSubmit={handleSubmit(handlePost)}
+            className="flex flex-wrap max-md:flex-col mt-7 gap-4"
+        >
+            <div className="w-2/3 max-md:w-full flex flex-1 flex-col gap-4">
                 <CustomInput
                     label="Title"
                     placeholder="Title"
@@ -134,14 +142,14 @@ const PostForm = ({ post }: {
                         defaultValue={getValues("content")}
                     />
                     {errors.content?.message && (
-                        <span className="mt-2 text-sm bg-red-500">
+                        <span className="mt-2 text-sm text-red-500">
                             {errors.content?.message}
                         </span>
                     )}
                 </div>
             </div>
 
-            <div className="w-1/3 ">
+            <div className="w-1/3 flex flex-col gap-4 max-md:w-full">
                 <CustomInput
                     label={"Featured Image"}
                     type="file"

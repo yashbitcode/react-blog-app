@@ -55,7 +55,7 @@ const SignUp = () => {
                 Already have an Account?&nbsp;
                 <Link to="/login">Sign In</Link>
             </span>
-            <form onSubmit={handleSubmit(handleSignUp)}>
+            <form onSubmit={handleSubmit(handleSignUp)} className="flex flex-col gap-4">
                 <CustomInput
                     type="text"
                     label="Fullname"
@@ -91,11 +91,11 @@ const SignUp = () => {
                             message:
                                 "Password must be at least 8 characters long",
                         },
-                        pattern: {
-                            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                            message:
-                                "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
-                        },
+                        // pattern: {
+                        //     value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                        //     message:
+                        //         "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
+                        // },
                     })}
                     errorMsg={errors.password?.message}
                 />
