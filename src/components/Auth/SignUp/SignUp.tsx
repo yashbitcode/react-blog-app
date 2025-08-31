@@ -2,9 +2,8 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { CustomButton, CustomInput } from "../../../custom-components";
 import authService from "../../../appwrite/auth";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { login } from "../../../store/authSlice";
+import { Link } from "react-router-dom";
+import { getErrorMessage } from "../../../utils/helpers";
 
 type Inputs = {
     name: string;
@@ -22,30 +21,19 @@ const SignUp = () => {
     } = useForm<Inputs>();
 
     const [signUpError, setSignUpError] = useState("");
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const password = watch("password");
 
     const handleSignUp: SubmitHandler<Inputs> = async (data) => {
         const { name, email, password } = data;
         try {
-            const session = await authService.createAccount({
+            await authService.createAccount({
                 name,
                 email,
                 password,
             });
-
-            if (session) {
-                const currUser = await authService.getCurrentUser();
-
-                if (currUser) {
-                    dispatch(login(currUser));
-                    navigate("/");
-                }
-            }
         } catch (err) {
-            setSignUpError(err.message);
+            setSignUpError(getErrorMessage(err));
         }
     };
 
@@ -53,9 +41,14 @@ const SignUp = () => {
         <div>
             <span>
                 Already have an Account?&nbsp;
-                <Link to="/login">Sign In</Link>
+                <Link to="/login" className="underline">
+                    Sign In
+                </Link>
             </span>
-            <form onSubmit={handleSubmit(handleSignUp)} className="flex flex-col gap-4">
+            <form
+                onSubmit={handleSubmit(handleSignUp)}
+                className="flex flex-col gap-4"
+            >
                 <CustomInput
                     type="text"
                     label="Fullname"

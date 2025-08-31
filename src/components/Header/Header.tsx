@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store/store";
 import { Link } from "react-router-dom";
+import Logout from "./Logout";
 
 const Header = () => {
     const authStatus = useSelector((state: RootState) => state.auth.status);
@@ -44,9 +45,12 @@ const Header = () => {
                 <ul className="flex gap-4">
                     {navItems.map((el) => el.active && (
                         <Link to={el.href} key={el.name}>
-                            <li>{el.name}</li>
+                            <li className="text-nowrap">{el.name}</li>
                         </Link>
                     ))}
+                    {
+                        authStatus && <Logout />
+                    }
                 </ul>
             </nav>
         </div>

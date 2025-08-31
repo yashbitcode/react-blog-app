@@ -6,9 +6,10 @@ import type { RootState } from "../store/store";
 import databaseService from "../appwrite/database";
 import storageService from "../appwrite/storage";
 import { CustomButton, CustomContainer } from "../custom-components";
+import type { Models } from "appwrite";
 
 const Post = () => {
-    const [post, setPost] = useState(null);
+    const [post, setPost] = useState<Models.DefaultDocument | null>(null);
     const { slug } = useParams();
     const navigate = useNavigate();
 
@@ -25,12 +26,14 @@ const Post = () => {
     }, [slug, navigate]);
 
     const handleDelete = () => {
-        databaseService.deletePost(post?.$id).then((status) => {
+        if(!post?.$id) return;
+        
+        databaseService.deletePost(post.$id).then((status) => {
             if (status) {
                 storageService.deleteFile(post?.featured_img);
                 navigate("/");
             }
-        });
+        }); 
     };
 
     return (

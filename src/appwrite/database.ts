@@ -29,6 +29,8 @@ class DatabaseService {
                     featured_img,
                 }
             );
+            console.log(result);
+
 
             return result;
         } catch (err) {

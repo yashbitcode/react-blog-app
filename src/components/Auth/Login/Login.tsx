@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../../../store/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { CustomButton, CustomInput } from "../../../custom-components";
+import { getErrorMessage } from "../../../utils/helpers";
 
 type Inputs = {
     email: string;
@@ -31,14 +32,14 @@ const Login = () => {
 
             if (session) {
                 const currUser = await authService.getCurrentUser();
-
+                
                 if (currUser) {
                     dispatch(login(currUser));
                     navigate("/");
                 }
             }
         } catch (err) {
-            setLoginError(err.message);
+            setLoginError(getErrorMessage(err));
         }
     };
 
@@ -46,7 +47,7 @@ const Login = () => {
         <div>
             <span>
                 Create New Account?&nbsp;
-                <Link to="/sign-up">Sign Up</Link>
+                <Link to="/sign-up" className="underline">Sign Up</Link>
             </span>
             <form onSubmit={handleSubmit(handleLogin)} className="flex flex-col gap-4">
                 <CustomInput

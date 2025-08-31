@@ -1,12 +1,12 @@
+import type { Models } from "appwrite";
 import storageService from "../../appwrite/storage";
-import type { PostCardInterface } from "../../types/types";
 import { Link } from "react-router-dom";
 
 const PostCard = ({
     $id,
     title,
     featured_img
-}: PostCardInterface) => {
+}: Models.DefaultDocument) => {
     return (
         <Link to={`/post/${$id}`}>
             <div>

@@ -11,9 +11,9 @@ const Protected = ({
 }) => {
     const authStatus = useSelector((state: RootState) => state.auth.status);
 
-    // if (authenticated && authStatus !== authenticated) {
-    //     return <Navigate to="/login" replace />;
-    // }
+    if (authenticated && authStatus !== authenticated) { 
+        return <Navigate to="/login" replace />;
+    }
 
     if (!authenticated && authStatus !== authenticated) {
         return <Navigate to="/" replace />;
@@ -23,3 +23,6 @@ const Protected = ({
 };
 
 export default Protected;
+// not login -> f & f !== f, t & f !== f
+    // login -> f & t !== f, t & t !== f
+// t & f !== t

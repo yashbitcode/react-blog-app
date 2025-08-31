@@ -11,24 +11,27 @@ import {
     CustomSelect,
 } from "../../../custom-components";
 import RTE from "../../RTE/RTE";
+import type { Models } from "appwrite";
 
 type Inputs = {
     title: string;
     slug: string;
     content: string;
     status: string;
-    image: File;
+    image: FileList;
     featured_img: string;
 };
 
-const PostForm = ({ post }: { post?: any }) => {
+const PostForm = ({ post }: { post?: Models.DefaultDocument }) => {
     const {
         register,
         handleSubmit,
         watch,
         control,
         setValue,
+        setError,
         getValues,
+        clearErrors,
         formState: { errors },
     } = useForm<Inputs>({
         defaultValues: {
@@ -43,11 +46,12 @@ const PostForm = ({ post }: { post?: any }) => {
     const userData = useSelector((state: RootState) => state.auth.userData);
 
     const handlePost: SubmitHandler<Inputs> = async (data) => {
+        console.log(data);
         let dbPost;
 
         if (post) {
             const file = data?.image?.[0]
-                ? await storageService.uploadFile(data.image[0])
+                ? await storageService.uploadFile(data?.image[0])
                 : null;
 
             if (file) storageService.deleteFile(post.featured_img);
@@ -67,7 +71,7 @@ const PostForm = ({ post }: { post?: any }) => {
                     userId: userData.$id,
                 });
 
-                if (dbPost) {
+                if (dbPost.success) {
                     const res = await databaseService.deletePost(post.$id);
                     if (res) navigate(`/post/${data.slug}`);
                 }
@@ -81,7 +85,12 @@ const PostForm = ({ post }: { post?: any }) => {
                 userId: userData.$id,
             });
 
-            if (dbPost) navigate(`/post/${data.slug}`);
+            if(!dbPost.success && dbPost?.error?.code) setError("slug", {
+                type: "custom",
+                message: "Slug already exists"
+            });
+
+            else if(dbPost) navigate(`/post/${data.slug}`);
         }
     };
 
@@ -131,6 +140,8 @@ const PostForm = ({ post }: { post?: any }) => {
                             shouldValidate: true,
                         });
                     }}
+                    disabled={!!post}
+                    className={`${post && "bg-gray-200 cursor-not-allowed"}`}
                     errorMsg={errors.slug?.message}
                 />
 

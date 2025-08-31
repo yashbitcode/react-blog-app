@@ -17,7 +17,7 @@ const Logout = () => {
     };
 
     return (
-        <CustomButton onClick={logoutaHandler}>Logout</CustomButton>
+        <CustomButton onClick={logoutaHandler} className="p-0 text-neutral-800 bg-transparent">Logout</CustomButton>
     );
 };
 

@@ -41,13 +41,15 @@ export interface CustomContainerInterface {
     children: React.ReactNode;
 }
 
-export interface CustomButtonInterface extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface CustomButtonInterface
+    extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     type?: "submit" | "reset" | "button" | undefined;
     children: string | React.ReactNode;
     className?: string;
 }
 
-export interface CustomInputInterface extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface CustomInputInterface
+    extends React.InputHTMLAttributes<HTMLInputElement> {
     id?: string;
     type?: string;
     label?: string;
@@ -56,8 +58,9 @@ export interface CustomInputInterface extends React.InputHTMLAttributes<HTMLInpu
     errorMsg?: string;
 }
 
-export interface CustomSelectInterface extends React.SelectHTMLAttributes<HTMLSelectElement> {
-    options: string[],
+export interface CustomSelectInterface
+    extends React.SelectHTMLAttributes<HTMLSelectElement> {
+    options: string[];
     id?: string;
     type?: string;
     ref?: React.Ref<HTMLSelectElement>;
@@ -70,4 +73,14 @@ export interface PostCardInterface {
     $id: string;
     title: string;
     featured_img: string;
-};
+}
+
+export interface mainPostInterface {
+    $id: string;
+    content: string;
+    featured_img: string;
+    status: string;
+    title: string;
+    userId: string;
+    [key: string]: unknown;
+}

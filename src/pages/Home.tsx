@@ -4,9 +4,11 @@ import { PostCard } from "../components/Post";
 import databaseService from "../appwrite/database";
 import { useSelector } from "react-redux";
 import type { RootState } from "../store/store";
+import type { Models } from "appwrite";
+import { Link } from "react-router-dom";
 
 const Home = () => {
-    const [posts, setPosts] = useState(null);
+    const [posts, setPosts] = useState<undefined | Models.DefaultDocument[]>();
     const userStatus = useSelector((state: RootState) => state.auth.status);
 
     useEffect(() => {
@@ -22,14 +24,14 @@ const Home = () => {
 
     return userStatus ? (
         <CustomContainer className="flex gap-4 flex-wrap mt-7">
-            {
-                posts?.map((el) => (
-                    <PostCard key={el.$id} {...el}  />
-                ))
-            }
+            {posts?.map((el) => (
+                <PostCard key={el.$id} {...el} />
+            ))}
         </CustomContainer>
     ) : (
-        <p className="text-center mt-7">login to read the blogs</p>
+        <div className="mx-auto w-fit mt-8">
+            <Link to={"/login"}>login to read the blogs</Link>
+        </div>
     );
 };
 

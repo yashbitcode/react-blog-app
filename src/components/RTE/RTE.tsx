@@ -13,7 +13,7 @@ const RTE = ({
         slug: string;
         content: string;
         status: string;
-        image: File;
+        image: FileList;
         featured_img: string;
     }>;
     label?: string;
