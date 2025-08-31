@@ -5,22 +5,17 @@ import App from "./App.tsx";
 import { Provider } from "react-redux";
 import { store } from "./store/store.ts";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./pages/Home.tsx";
-import Login from "./pages/Login.tsx";
 import Protected from "./components/Protected/Protected.tsx";
-import SignUp from "./pages/SignUp.tsx";
-import AddPost from "./pages/AddPost.tsx";
-import EditPost from "./pages/EditPost.tsx";
-import Post from "./pages/Post.tsx";
+import { AddPost, EditPost, Home, Login, Post, SignUp, YourPosts } from "./pages";
 
 const router = createBrowserRouter([
     {
-        path: '/',
+        path: "/",
         element: <App />,
         children: [
             {
                 path: "/",
-                element: <Home />
+                element: <Home />,
             },
             {
                 path: "/login",
@@ -28,7 +23,7 @@ const router = createBrowserRouter([
                     <Protected authenticated={false}>
                         <Login />
                     </Protected>
-                )
+                ),
             },
             {
                 path: "/sign-up",
@@ -36,7 +31,7 @@ const router = createBrowserRouter([
                     <Protected authenticated={false}>
                         <SignUp />
                     </Protected>
-                )
+                ),
             },
             {
                 path: "/all-posts",
@@ -44,7 +39,7 @@ const router = createBrowserRouter([
                     <Protected>
                         <Home />
                     </Protected>
-                )
+                ),
             },
             {
                 path: "/add-post",
@@ -52,7 +47,7 @@ const router = createBrowserRouter([
                     <Protected>
                         <AddPost />
                     </Protected>
-                )
+                ),
             },
             {
                 path: "/edit-post/:slug",
@@ -60,15 +55,27 @@ const router = createBrowserRouter([
                     <Protected>
                         <EditPost />
                     </Protected>
-                )
+                ),
             },
             {
                 path: "/post/:slug",
-                element: <Post />
+                element: (
+                    <Protected>
+                        <Post />
+                    </Protected>
+                ),
             },
-        ]
-    }
-])
+            {
+                path: "/your-posts",
+                element: (
+                    <Protected>
+                        <YourPosts />
+                    </Protected>
+                ),
+            }
+        ],
+    },
+]);
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>

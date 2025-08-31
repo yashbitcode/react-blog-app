@@ -31,7 +31,6 @@ const PostForm = ({ post }: { post?: Models.DefaultDocument }) => {
         setValue,
         setError,
         getValues,
-        clearErrors,
         formState: { errors },
     } = useForm<Inputs>({
         defaultValues: {

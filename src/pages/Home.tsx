@@ -19,7 +19,7 @@ const Home = () => {
             setPosts(posts);
         };
 
-        fetchPosts();
+        if(userStatus) fetchPosts();
     }, []);
 
     return userStatus ? (

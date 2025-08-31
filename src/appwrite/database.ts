@@ -13,9 +13,14 @@ class DatabaseService {
         this.database = new Databases(this.client);
     }
 
-    async createPost(
-        { status, slug, title, content, featured_img, userId }: createPostInterface
-    ) {
+    async createPost({
+        status,
+        slug,
+        title,
+        content,
+        featured_img,
+        userId,
+    }: createPostInterface) {
         try {
             const result = await this.database.createDocument(
                 conf.appwriteDatabaseId,
@@ -31,19 +36,22 @@ class DatabaseService {
             );
             console.log(result);
 
-
             return result;
         } catch (err) {
             return {
                 success: false,
-                error: err 
+                error: err,
             };
         }
     }
 
-    async updatePost(
-        { status, slug, title, content, featured_img }: updatePostInterface
-    ) {
+    async updatePost({
+        status,
+        slug,
+        title,
+        content,
+        featured_img,
+    }: updatePostInterface) {
         try {
             await this.database.updateDocument(
                 conf.appwriteDatabaseId,
@@ -94,6 +102,23 @@ class DatabaseService {
     }
 
     async getAllPost(queries = [Query.equal("status", "active")]) {
+        try {
+            const result = await this.database.listDocuments(
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
+                queries
+            );
+
+            return result;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async getAllUserSpecificPosts(
+        userId: string,
+        queries = [Query.equal("userId", userId)]
+    ) {
         try {
             const result = await this.database.listDocuments(
                 conf.appwriteDatabaseId,

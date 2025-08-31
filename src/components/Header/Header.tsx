@@ -28,6 +28,11 @@ const Header = () => {
             active: authStatus,
         },
         {
+            name: "Your Posts",
+            href: "/your-posts",
+            active: authStatus,
+        },
+        {
             name: "Login",
             href: "/login",
             active: !authStatus,

@@ -8,12 +8,12 @@ const PostCard = ({
     featured_img
 }: Models.DefaultDocument) => {
     return (
-        <Link to={`/post/${$id}`}>
+        <Link to={`/post/${$id}`} className="shadow-md p-4">
             <div>
                 <div className="w-full max-w-3xs">
                     <img src={storageService.getFilePreview(featured_img)} alt={title} />
                 </div>
-                <h1 className="text-xl">{title}</h1>
+                <h1>{title}</h1>
             </div>
         </Link>
     );
