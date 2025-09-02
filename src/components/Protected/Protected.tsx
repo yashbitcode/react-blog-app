@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store/store";
 import { Navigate } from "react-router-dom";
+import VerificationComp from "../Verification/VerificationComp";
 
 const Protected = ({
     children,
@@ -10,6 +11,7 @@ const Protected = ({
     authenticated?: boolean;
 }) => {
     const authStatus = useSelector((state: RootState) => state.auth.status);
+    const verificationStatus = useSelector((state: RootState) => state.auth.verified);
 
     if (authenticated && authStatus !== authenticated) { 
         return <Navigate to="/login" replace />;
@@ -19,7 +21,11 @@ const Protected = ({
         return <Navigate to="/" replace />;
     }
 
-    return <div>{children}</div>;
+    return <div>
+        {
+            verificationStatus || !authStatus || window.location.pathname === "/verify" ? children : <VerificationComp />
+        }
+    </div>;
 };
 
 export default Protected;

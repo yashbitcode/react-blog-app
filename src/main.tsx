@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import { store } from "./store/store.ts";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Protected from "./components/Protected/Protected.tsx";
-import { AddPost, EditPost, Home, Login, Post, SignUp, YourPosts } from "./pages";
+import { AddPost, EditPost, Home, Login, Post, SignUp, Verify, YourPosts } from "./pages";
 
 const router = createBrowserRouter([
     {
@@ -72,7 +72,15 @@ const router = createBrowserRouter([
                         <YourPosts />
                     </Protected>
                 ),
-            }
+            },
+            {
+                path: "/verify",
+                element: (
+                    <Protected>
+                        <Verify />
+                    </Protected>
+                ),
+            },
         ],
     },
 ]);

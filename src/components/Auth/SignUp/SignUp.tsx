@@ -2,7 +2,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { CustomButton, CustomInput } from "../../../custom-components";
 import authService from "../../../appwrite/auth";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getErrorMessage } from "../../../utils/helpers";
 
 type Inputs = {
@@ -21,17 +21,20 @@ const SignUp = () => {
     } = useForm<Inputs>();
 
     const [signUpError, setSignUpError] = useState("");
-
+    const navigate = useNavigate();
     const password = watch("password");
 
     const handleSignUp: SubmitHandler<Inputs> = async (data) => {
         const { name, email, password } = data;
         try {
-            await authService.createAccount({
+            const res = await authService.createAccount({
                 name,
                 email,
                 password,
             });
+
+            if(res) navigate("/login");
+
         } catch (err) {
             setSignUpError(getErrorMessage(err));
         }
