@@ -43,6 +43,7 @@ VITE_APPWRITE_DATABASE_ID=""
 VITE_APPWRITE_COLLECTION_ID=""
 VITE_APPWRITE_BUCKET_ID=""
 VITE_RTE_API_KEY=""
+```
 
 # 🚀 Getting Started
 
@@ -50,12 +51,14 @@ VITE_RTE_API_KEY=""
 ```bash
 git clone <repo-url>
 cd <repo-name>
+```
 ### Install dependencies
 ```bash
 npm install
+```
 ###Add your .env file and Run the app:
 ```bash
 npm run dev
-
+```
 # 📌 Notes
 This is just a fun exploration project to learn and experiment with Appwrite, authentication, and content editing.
